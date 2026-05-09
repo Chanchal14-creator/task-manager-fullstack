@@ -1,0 +1,25 @@
+package com.taskmanager.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.taskmanager.entity.User;
+import com.taskmanager.repository.UserRepository;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/signup")
+    public String registerUser(@RequestBody User user) {
+
+    	System.out.println("NAME: " + user.getName());
+        System.out.println("EMAIL: " + user.getEmail());
+    	  
+        userRepository.save(user);
+        return "User registered successfully";
+    }
+}

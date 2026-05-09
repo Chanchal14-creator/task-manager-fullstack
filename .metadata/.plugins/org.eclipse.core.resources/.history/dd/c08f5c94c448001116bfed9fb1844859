@@ -1,0 +1,57 @@
+package com.taskmanager.controller;
+
+import com.taskmanager.entity.Task;
+import com.taskmanager.entity.User;
+import com.taskmanager.entity.Project;
+import com.taskmanager.repository.TaskRepository;
+import com.taskmanager.repository.UserRepository;
+import com.taskmanager.repository.ProjectRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/tasks")
+public class TaskController {
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    // ✅ Create Task
+    @PostMapping
+    public Task createTask(@RequestBody Task task, HttpServletRequest request) {
+
+        String email = (String) request.getAttribute("email");
+
+        User createdUser = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User assignedUser = userRepository.findById(task.getAssignedTo().getId())
+                .orElseThrow(() -> new RuntimeException("Assigned user not found"));
+
+        Project project = projectRepository.findById(task.getProject().getId())
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        task.setCreatedBy(createdUser);
+        task.setAssignedTo(assignedUser);
+        task.setProject(project);
+
+        return taskRepository.save(task);
+    }
+
+    // ✅ Get All Tasks
+    @GetMapping
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+}

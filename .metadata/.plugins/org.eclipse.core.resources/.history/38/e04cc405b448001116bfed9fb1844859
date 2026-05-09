@@ -1,0 +1,28 @@
+package com.taskmanager.controller;
+
+import com.taskmanager.entity.Project;
+import com.taskmanager.repository.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    // Create Project
+    @PostMapping
+    public Project createProject(@RequestBody Project project) {
+        return projectRepository.save(project);
+    }
+
+    // Get All Projects
+    @GetMapping
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+}

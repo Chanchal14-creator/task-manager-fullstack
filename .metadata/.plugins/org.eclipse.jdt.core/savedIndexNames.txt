@@ -1,0 +1,2 @@
+INDEX VERSION 1.134+C:\my files\Desktop\all visual studio files\Java Springboot\taskmanager\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index

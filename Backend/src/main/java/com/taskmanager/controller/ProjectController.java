@@ -1,0 +1,45 @@
+package com.taskmanager.controller;
+
+import com.taskmanager.entity.Project;
+import com.taskmanager.entity.User;
+import com.taskmanager.repository.ProjectRepository;
+import com.taskmanager.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    // ✅ Create Project
+    @PostMapping
+    public Project createProject(@RequestBody Project project,
+            HttpServletRequest request) {
+
+String email = (String) request.getAttribute("email");
+System.out.println("Controller Email: " + email);
+User user = userRepository.findByEmailIgnoreCase(email)
+.orElseThrow(() -> new RuntimeException("User not found"));
+
+project.setCreatedBy(user);
+
+return projectRepository.save(project);
+}
+
+    // ✅ Get All Projects
+    @GetMapping
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+}

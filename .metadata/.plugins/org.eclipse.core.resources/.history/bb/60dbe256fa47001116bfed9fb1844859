@@ -1,0 +1,5 @@
+package com.taskmanager.security;
+
+public class JwtUtil {
+
+}

@@ -1,0 +1,42 @@
+package com.taskmanager.controller;
+
+import com.taskmanager.entity.Project;
+import com.taskmanager.entity.User;
+import com.taskmanager.repository.ProjectRepository;
+import com.taskmanager.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    // ✅ Create Project
+    @PostMapping
+    public Project createProject(@RequestBody Project project) {
+
+        Long userId = project.getCreatedBy().getId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        project.setCreatedBy(user);
+
+        return projectRepository.save(project);
+    }
+
+    // ✅ Get All Projects
+    @GetMapping
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+}
