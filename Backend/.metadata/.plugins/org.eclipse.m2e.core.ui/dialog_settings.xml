@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
-			<item value="C:\my files\Desktop\all visual studio files\Java Springboot\taskmanager"/>
 			<item value="C:\my files\Desktop\all visual studio files\Java Springboot\taskmanager\Backend"/>
+			<item value="C:\my files\Desktop\all visual studio files\Java Springboot\taskmanager"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
