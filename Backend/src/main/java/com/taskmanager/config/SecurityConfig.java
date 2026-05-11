@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.taskmanager.security.JwtFilter;
+
 @Configuration
 public class SecurityConfig {
 
@@ -24,50 +25,46 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-	    http
-	        .csrf(csrf -> csrf.disable())
+		http
+				.csrf(csrf -> csrf.disable())
 
-	        .cors(cors -> {})
+				.cors(cors -> {
+				})
 
-	        .sessionManagement(session ->
-	                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	        )
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-	        .authorizeHttpRequests(auth -> auth
-	                .requestMatchers("/api/auth/**").permitAll()
-	                .requestMatchers(HttpMethod.GET, "/api/tasks/**").authenticated()
-	                .requestMatchers(HttpMethod.POST, "/api/tasks/**").authenticated()
-	                .anyRequest().authenticated()
-	        )
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/api/auth/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/tasks/**").authenticated()
+						.requestMatchers(HttpMethod.POST, "/api/tasks/**").authenticated()
+						.requestMatchers("/api/projects/**").authenticated()
+						.anyRequest().authenticated())
 
-	        .addFilterBefore(jwtFilter,
-	                UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtFilter,
+						UsernamePasswordAuthenticationFilter.class);
 
-	    return http.build();
+		return http.build();
 	}
-	
 
-	
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 
-	    CorsConfiguration configuration = new CorsConfiguration();
+		CorsConfiguration configuration = new CorsConfiguration();
 
-	    configuration.addAllowedOrigin("http://localhost:4200");
-	    configuration.addAllowedHeader("*");
-	    configuration.addAllowedMethod("*");
+		configuration.addAllowedOrigin("http://localhost:4200");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
 
-	    UrlBasedCorsConfigurationSource source =
-	            new UrlBasedCorsConfigurationSource();
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-	    source.registerCorsConfiguration("/**", configuration);
+		source.registerCorsConfiguration("/**", configuration);
 
-	    return source;
+		return source;
 	}
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }
