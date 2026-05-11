@@ -1,0 +1,164 @@
+<!-- <div class="dashboard-container">
+
+  <button class="logout-btn" (click)="logout()">
+    Logout
+  </button>
+
+  <h2>Task Dashboard</h2>
+
+  <div class="create-box">
+
+    <h3>Create Task</h3>
+
+    <input
+      [(ngModel)]="newTask.title"
+      placeholder="Task Title"
+    >
+
+    <br><br>
+
+    <input
+      [(ngModel)]="newTask.description"
+      placeholder="Description"
+    >
+
+    <br><br>
+
+    <input
+      type="date"
+      [(ngModel)]="newTask.dueDate"
+    >
+
+    <br><br>
+
+    <button (click)="createTask()">
+      Create Task
+    </button>
+
+  </div>
+
+  <h3>Your Tasks</h3>
+
+  <div
+    class="task-card"
+    *ngFor="let task of tasks"
+  >
+
+    <div class="task-title">
+      {{ task.title }}
+    </div>
+
+    <div class="task-status">
+      {{ task.status }}
+    </div>
+
+    <p>
+      {{ task.description }}
+    </p>
+
+  </div>
+
+</div> -->
+
+<div class="dashboard-container">
+
+  <div class="top-bar">
+
+    <h2>Task Dashboard</h2>
+
+    <button
+      class="logout-btn"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+  <div class="create-box">
+
+    <h3>Create New Task</h3>
+
+    <div class="input-group">
+
+      <input
+        type="text"
+        [(ngModel)]="newTask.title"
+        placeholder="Enter task title"
+      >
+
+    </div>
+
+    <div class="input-group">
+
+      <input
+        type="text"
+        [(ngModel)]="newTask.description"
+        placeholder="Enter task description"
+      >
+
+    </div>
+
+    <div class="input-group">
+
+      <input
+        type="date"
+        [(ngModel)]="newTask.dueDate"
+      >
+
+    </div>
+
+    <button
+      class="create-btn"
+      (click)="createTask()"
+    >
+      Create Task
+    </button>
+
+  </div>
+
+  <h3 class="section-title">
+    Your Tasks
+  </h3>
+
+  <div
+    class="task-grid"
+    *ngIf="tasks.length > 0"
+  >
+
+    <div
+      class="task-card"
+      *ngFor="let task of tasks"
+    >
+
+      <div class="task-title">
+        {{ task.title }}
+      </div>
+
+      <div class="task-status">
+        {{ task.status }}
+      </div>
+
+      <div class="task-description">
+        {{ task.description }}
+      </div>
+
+      <br>
+
+      <div>
+        <strong>Due Date:</strong>
+        {{ task.dueDate }}
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    class="empty-text"
+    *ngIf="tasks.length === 0"
+  >
+    No tasks available.
+  </div>
+
+</div>
